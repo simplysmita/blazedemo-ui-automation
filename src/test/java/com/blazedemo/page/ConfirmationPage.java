@@ -1,4 +1,4 @@
-package com.blazedemo.pageObjects;
+package com.blazedemo.page;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

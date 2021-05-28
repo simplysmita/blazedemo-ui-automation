@@ -1,5 +1,6 @@
-package com.blazedemo.sanitySuite;
+package com.blazedemo.sanity;
 
+import com.blazedemo.util.ExcelHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -8,6 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.DataProvider;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,6 +29,8 @@ public class BaseTest {
 
     public Properties config = null;
     public WebDriver webDriver = null;
+    protected String excelFilePath;
+    protected String excelSheetName;
 
     @BeforeSuite
     public void setUp() {
@@ -64,6 +68,11 @@ public class BaseTest {
         ChromeDriver driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         return driver;
+    }
+
+    @DataProvider
+    public Object[][] getTestData() {
+        return ExcelHelper.getScenarioList(ExcelHelper.loadSheet(excelFilePath, excelSheetName));
     }
 
     @AfterSuite
@@ -110,7 +119,6 @@ public class BaseTest {
     public void quitDriver() {
         webDriver.quit();
         webDriver = null;
-        log.info("Closing Browser.");
     }
 
 }

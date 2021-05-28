@@ -1,4 +1,4 @@
-package com.blazedemo.pageObjects;
+package com.blazedemo.page;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.Select;
  */
 public class FindFlightsPage extends BasePage {
 
-    @FindBy(className = "form-inline")
+    @FindBy(name = "fromPort")
     WebElement fromPort;
 
     @FindBy(name = "toPort")

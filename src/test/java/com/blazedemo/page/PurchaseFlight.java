@@ -1,4 +1,4 @@
-package com.blazedemo.pageObjects;
+package com.blazedemo.page;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -53,6 +53,7 @@ public class PurchaseFlight extends BasePage {
 
     /**
      * Fill the form data
+     *
      * @param name
      * @param address
      * @param city
@@ -70,7 +71,7 @@ public class PurchaseFlight extends BasePage {
         cityWebElement.sendKeys(city);
         stateWebElement.sendKeys(state);
         zipCodeWebElement.sendKeys(zipCode);
-        Select cardSelect=new Select(cardTypeWebElement);
+        Select cardSelect = new Select(cardTypeWebElement);
         cardSelect.selectByValue(cardType);
         creditCardNumberWebElement.sendKeys(ccNumber);
         creditCardMonthWebElement.sendKeys(ccMonth);
@@ -78,11 +79,13 @@ public class PurchaseFlight extends BasePage {
         nameOnCardWebElement.sendKeys(cardName);
     }
 
-    public void updateRememberMe(){
-        rememberMeWebElement.click();
+    public void updateRememberMe(Boolean selection) {
+        if (selection) {
+            rememberMeWebElement.click();
+        }
     }
 
-    public void clickPurchaseFlight(){
+    public void clickPurchaseFlight() {
         purchaseFlightWebElement.click();
     }
 }

@@ -1,6 +1,6 @@
-package com.blazedemo.pageObjects;
+package com.blazedemo.page;
 
-import com.blazedemo.sanitySuite.BaseTest;
+import com.blazedemo.sanity.BaseTest;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
@@ -21,6 +21,14 @@ public class BasePage {
     public static void wait(int timeInSeconds) {
         try {
             Thread.sleep(timeInSeconds * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void waitInDebug() {
+        try {
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
