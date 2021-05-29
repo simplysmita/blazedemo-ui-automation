@@ -1,9 +1,6 @@
 package com.blazedemo.util;
 
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.usermodel.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -40,19 +37,33 @@ public class ExcelHelper {
         return scenarioArray;
     }
 
-    public static String getValue(Row row, int index) {
-        return row.getCell(index).getStringCellValue();
+    public static String getStringValue(Row row, int index) {
+        Cell cell = row.getCell(index);
+        if (cell != null) {
+            if (CellType.STRING.equals(cell.getCellType())) {
+                return cell.getStringCellValue();
+            }
+        }
+        return null;
     }
 
-    public static Integer getIntValue(Row row, int index) {
-        return (int) row.getCell(index).getNumericCellValue();
+    public static Long getLongValue(Row row, int index) {
+        Cell cell = row.getCell(index);
+        if (cell != null) {
+            if (CellType.NUMERIC.equals(cell.getCellType())) {
+                return Math.round(cell.getNumericCellValue());
+            }
+        }
+        return null;
     }
 
-    public static Long getLongValue(Row row, int i) {
-        return Math.round(row.getCell(i).getNumericCellValue());
-    }
-
-    public static Boolean getBooleanValue(Row row, int i) {
-        return row.getCell(i).getBooleanCellValue();
+    public static Boolean getBooleanValue(Row row, int index) {
+        Cell cell = row.getCell(index);
+        if (cell != null) {
+            if (CellType.BOOLEAN.equals(cell.getCellType())) {
+                return cell.getBooleanCellValue();
+            }
+        }
+        return null;
     }
 }

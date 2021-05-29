@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import static org.testng.Assert.assertNotNull;
+
 /**
  * @author Smita Sahu
  * ConfirmationPage
@@ -18,6 +20,7 @@ public class ConfirmationPage extends BasePage {
     }
 
     public void printConfirmationId(){
+        assertNotNull("Missing confirmationId", confirmationId.getText());
         log.info("Confirmation ID: "+confirmationId.getText());
     }
 }

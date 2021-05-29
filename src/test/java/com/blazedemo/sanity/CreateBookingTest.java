@@ -9,6 +9,8 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 
+import static org.testng.Assert.assertEquals;
+
 public class CreateBookingTest extends BaseTest {
     FindFlightsPage findFlightsPage;
     ChooseFlightPage chooseFlightPage;
@@ -21,30 +23,60 @@ public class CreateBookingTest extends BaseTest {
     }
 
 
-    @Test(dataProvider = "getTestData")
+    @Test(dataProvider = "getTestData", priority = 2)
     public void testEndToEndESuccess(String scenarioName, int rowIndex) throws InterruptedException {
         log.info("Scenario Name: " + scenarioName);
         BlazeUIDataModel blazeUIData = BlazeUIDataModel.loadDataFromSheet(rowIndex);
         webDriver.get("https://blazedemo.com/");
+        findFlightsPage.waitInDebug();
+        if (blazeUIData.getImageLink() == true) {
+            findFlightsPage.clickImageLink();
+            findFlightsPage.waitInDebug();
+        } else {
+            findFlightsPage.selectOriginAndDestination(blazeUIData.getOrigin(), blazeUIData.getDestination());
+            findFlightsPage.waitInDebug();
+            findFlightsPage.clickFindFlights();
+            findFlightsPage.waitInDebug();
+            chooseFlightPage = new ChooseFlightPage(webDriver);
+            chooseFlightPage.validateArrivalAndDeparture(blazeUIData.getOrigin(), blazeUIData.getDestination());
+            chooseFlightPage.clickChooseFlight(blazeUIData.getChooseFlightIndex());
+            chooseFlightPage.waitInDebug();
+            purchaseFlightPage = new PurchaseFlight(webDriver);
+            purchaseFlightPage.fillForm(blazeUIData.getName(), blazeUIData.getAddress(), blazeUIData.getCity(),
+                    blazeUIData.getState(), blazeUIData.getZipCode(), blazeUIData.getCardType(), blazeUIData.getCreditCardNumber(),
+                    blazeUIData.getCreditCardMonth(), blazeUIData.getCreditCardYear(), blazeUIData.getNameOnCard());
+            purchaseFlightPage.updateRememberMe(blazeUIData.getRememberMe());
+            purchaseFlightPage.waitInDebug();
+            purchaseFlightPage.clickPurchaseFlight();
+            purchaseFlightPage.waitInDebug();
+            confirmationPage = new ConfirmationPage(webDriver);
+            confirmationPage.printConfirmationId();
+        }
+    }
+
+    @Test(priority = 3)
+    public void backAndForth() throws InterruptedException {
+        webDriver.get("https://blazedemo.com/");
         findFlightsPage = new FindFlightsPage(webDriver);
         findFlightsPage.waitInDebug();
-        findFlightsPage.selectOriginAndDestination(blazeUIData.getOrigin(), blazeUIData.getDestination());
+        findFlightsPage.selectOriginAndDestination("Paris", "London");
         findFlightsPage.waitInDebug();
         findFlightsPage.clickFindFlights();
         findFlightsPage.waitInDebug();
-        chooseFlightPage = new ChooseFlightPage(webDriver);
-        chooseFlightPage.clickChooseFlight(blazeUIData.getChooseFlightIndex());
+        webDriver.navigate().back();
         findFlightsPage.waitInDebug();
-        purchaseFlightPage = new PurchaseFlight(webDriver);
-        purchaseFlightPage.fillForm(blazeUIData.getName(), blazeUIData.getAddress(),blazeUIData.getCity(),
-                blazeUIData.getState(), blazeUIData.getZipCode(), blazeUIData.getCardType(), blazeUIData.getCreditCardNumber(),
-                blazeUIData.getCreditCardMonth(), blazeUIData.getCreditCardYear(), blazeUIData.getNameOnCard());
-        purchaseFlightPage.updateRememberMe(blazeUIData.getRememberMe());
-        purchaseFlightPage.waitInDebug();
-        purchaseFlightPage.clickPurchaseFlight();
-        purchaseFlightPage.waitInDebug();
-        confirmationPage = new ConfirmationPage(webDriver);
-        confirmationPage.printConfirmationId();
+        webDriver.navigate().forward();
+        chooseFlightPage = new ChooseFlightPage(webDriver);
+        chooseFlightPage.clickChooseFlight(2L);
     }
 
+    @Test(priority = 1)
+    public void pageTitleVerify() throws InterruptedException {
+        webDriver.get("https://blazedemo.com/");
+        findFlightsPage = new FindFlightsPage(webDriver);
+        String title = findFlightsPage.getTitleHeader();
+        log.info("Blazedemo title is: " + title);
+        assertEquals(title, config.getProperty("blazedemo_title"));
+
+    }
 }
