@@ -23,10 +23,6 @@ public class FindFlightsPage extends BasePage {
     WebElement imgLink;
     @FindBy(xpath = "//h1")
     WebElement blazeDemoHeading;
-    @FindBy(xpath = "//h2")
-    WebElement fromPortHeading;
-    @FindBy(xpath = "//h2")
-    WebElement toPortHeading;
 
     public FindFlightsPage(WebDriver driver) {
         super(driver);
