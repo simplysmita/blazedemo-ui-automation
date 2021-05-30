@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Synerzip-TestAutomation-SanitySuite" verbose="1" parallel="false">
+<suite name="blazedemo-ui-automation suite" verbose="1" parallel="false" >
 
     <test name="Test Suite 1" preserve-order="true" verbose="2">
         <classes>

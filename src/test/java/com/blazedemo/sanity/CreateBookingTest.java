@@ -5,6 +5,8 @@ import com.blazedemo.page.ChooseFlightPage;
 import com.blazedemo.page.ConfirmationPage;
 import com.blazedemo.page.FindFlightsPage;
 import com.blazedemo.page.PurchaseFlight;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -16,6 +18,18 @@ public class CreateBookingTest extends BaseTest {
     ChooseFlightPage chooseFlightPage;
     PurchaseFlight purchaseFlightPage;
     ConfirmationPage confirmationPage;
+
+    @BeforeSuite(alwaysRun = true)
+    public void setUp() {
+        log.info("Before Suite entered");
+        initConfiguration();
+        webDriver = initDriver();
+    }
+
+    @AfterSuite
+    public void tearDown() {
+        quitDriver();
+    }
 
     public CreateBookingTest() {
         excelFilePath = System.getProperty("user.dir") + File.separator + "test_data" + File.separator + "BlazeUiData.xlsx";

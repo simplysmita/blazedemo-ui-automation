@@ -7,8 +7,6 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 
 import java.io.File;
@@ -32,17 +30,11 @@ public class BaseTest {
     protected String excelFilePath;
     protected String excelSheetName;
 
-    @BeforeSuite
-    public void setUp() {
-        initConfiguration();
-        webDriver = initDriver();
-    }
-
 
     /**
      * Initialize ConfigFile
      */
-    private void initConfiguration() {
+    public void initConfiguration() {
         if (config == null) {
             try {
                 config = new Properties();
@@ -60,7 +52,7 @@ public class BaseTest {
     /**
      * Initialize Driver.
      */
-    private WebDriver initDriver() {
+    public WebDriver initDriver() {
         System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("disable-extensions");
@@ -73,11 +65,6 @@ public class BaseTest {
     @DataProvider
     public Object[][] getTestData() {
         return ExcelHelper.getScenarioList(ExcelHelper.loadSheet(excelFilePath, excelSheetName));
-    }
-
-    @AfterSuite
-    public void tearDown() {
-        quitDriver();
     }
 
 
