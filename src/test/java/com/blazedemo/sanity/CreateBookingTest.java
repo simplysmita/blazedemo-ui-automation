@@ -38,7 +38,7 @@ public class CreateBookingTest extends BaseTest {
 
 
     @Test(dataProvider = "getTestData", priority = 2)
-    public void testEndToEndESuccess(String scenarioName, int rowIndex) throws InterruptedException {
+    public void testEndToEndESuccess(String scenarioName, int rowIndex) {
         log.info("Scenario Name: " + scenarioName);
         BlazeUIDataModel blazeUIData = BlazeUIDataModel.loadDataFromSheet(rowIndex);
         webDriver.get("https://blazedemo.com/");
@@ -85,7 +85,7 @@ public class CreateBookingTest extends BaseTest {
     }
 
     @Test(priority = 1)
-    public void pageTitleVerify() throws InterruptedException {
+    public void pageTitleVerify() {
         webDriver.get("https://blazedemo.com/");
         findFlightsPage = new FindFlightsPage(webDriver);
         String title = findFlightsPage.getTitleHeader();

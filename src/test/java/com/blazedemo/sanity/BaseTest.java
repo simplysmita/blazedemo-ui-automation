@@ -30,10 +30,6 @@ public class BaseTest {
     protected String excelFilePath;
     protected String excelSheetName;
 
-
-    /**
-     * Initialize ConfigFile
-     */
     public void initConfiguration() {
         if (config == null) {
             try {
@@ -48,10 +44,6 @@ public class BaseTest {
         }
     }
 
-
-    /**
-     * Initialize Driver.
-     */
     public WebDriver initDriver() {
         System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
@@ -67,42 +59,6 @@ public class BaseTest {
         return ExcelHelper.getScenarioList(ExcelHelper.loadSheet(excelFilePath, excelSheetName));
     }
 
-
-    /**
-     * Define path for Screenshot file.
-     */
-    protected String getScreenshotSavePath() {
-        String packageName = this.getClass().getPackage().getName();
-        File dir = new File(System.getProperty("user.dir") + File.separator + "screenshot" + File.separator + packageName + File.separator);
-        dir.mkdirs();
-        return dir.getAbsolutePath();
-    }
-
-
-    /**
-     * Take Screenshot on failure.
-     */
-    protected void getScreenshot() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        String date = sdf.format(new Date());
-        String url = webDriver.getCurrentUrl().replaceAll("[\\/:*\\?\"<>\\|]", "_");
-        String ext = ".jpg";
-        String path = getScreenshotSavePath() + File.separator + date + "_" + url + ext;
-
-        try {
-            if (webDriver instanceof TakesScreenshot) {
-                File tmpFile = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);
-                org.openqa.selenium.io.FileHandler.copy(tmpFile, new File(path));
-                log.error("Captured Screenshot for Failure: " + path);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Quit Driver.
-     */
     public void quitDriver() {
         webDriver.quit();
         webDriver = null;
